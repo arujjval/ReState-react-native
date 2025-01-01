@@ -20,26 +20,35 @@ export const account = new Account(client);
 
 export async function login() {
   try {
-    const redirectUri = Linking.createURL('/');
+    const redirectUri = Linking.createURL("/");  //creating a redirect URL
 
-    const authUrl = await account.createOAuth2Session(
-      OAuthProvider.Google, 
-      redirectUri,
+    //create OAuth2 token
+    const response = await account.createOAuth2Token(
+      OAuthProvider.Google,
       redirectUri
     );
+    if (!response) throw new Error("Create OAuth2 token failed");
 
-    if(!authUrl) throw new Error('Failed to create OAuth2 session');
+    //open the browser to authenticate
+    const browserResult = await openAuthSessionAsync(
+      response.toString(),
+      redirectUri
+    );
+    if (browserResult.type !== "success")
+      throw new Error("Create OAuth2 token failed");
+    
+    //parse the URL
+    const url = new URL(browserResult.url);
+    const secret = url.searchParams.get("secret")?.toString();
+    const userId = url.searchParams.get("userId")?.toString();
+    if (!secret || !userId) throw new Error("Create OAuth2 token failed");
 
-    console.log('authUrl: ' + authUrl.toString() + '\n redirect: ' + redirectUri);
+    //create a session
+    const session = await account.createSession(userId, secret);
+    if (!session) throw new Error("Failed to create session");
 
-    const result = await openAuthSessionAsync(authUrl.toString(), redirectUri);
+    return true;
 
-    if (result.type === 'success') {
-      console.log('Login successful:', result);
-      return true;
-    } else {
-      throw new Error('OAuth login canceled or failed');
-    }
   } catch (error) {
     console.log('Login failed:', error);
     return false;
@@ -67,9 +76,10 @@ export async function getCurrentUser() {
       return {
         ...response,
         avatar: userAvatar.toString(),
-      }
+      };
     }
-
+    
+    return null;
   } catch (error) {
     console.error('Failed to get user:', error);
     return null;

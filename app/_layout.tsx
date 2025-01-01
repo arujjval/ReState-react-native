@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import "./globals.css";
 import { useEffect } from "react";
+import { Text } from "react-native";
 import GlobalProvider from "@/lib/global-provider";
 
 export default function RootLayout() {

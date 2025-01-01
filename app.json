@@ -35,7 +35,7 @@
         }
       ],
       [
-        "expo-font", 
+        "expo-font",
         {
           "fonts": [
             "./assets/fonts/Rubik-Bold.ttf",
@@ -46,7 +46,8 @@
             "./assets/fonts/Rubik-SemiBold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

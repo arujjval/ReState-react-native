@@ -5,7 +5,7 @@ import icons from '@/constants/icons';
 import images from '@/constants/images';
 import { settings } from '@/constants/data';
 import { useGlobalContext } from '@/lib/global-provider';
-import { logout } from '@/lib/appwrite';
+import { getCurrentUser, logout } from '@/lib/appwrite';
 
 interface SettingsItemProps {
   icon: ImageSourcePropType;
@@ -32,7 +32,7 @@ const SettingsItem = ({ icon, title, onPress, textStyle, showArrow = true}
 )
 
 const profile = () => {
-  const { user, refetch, isLoggedin } = useGlobalContext();
+  const { refetch, isLoggedin, user } = useGlobalContext();
 
   const handleLogout = async () => {
     const result = await logout();
@@ -56,15 +56,14 @@ const profile = () => {
         justify-between mt-5'>
           <Text className='text-xl font-rubik-bold'>
             Profile 
-            {isLoggedin && ` - ${user?.name}`}
           </Text>
           <Image source={icons.bell} className='size-5'/>
         </View>
-
+        <Text></Text>
         <View className='flex-row justify-center flex mt-5'>
           <View className="flex flex-col items-center
           relative mt-5">
-            <Image source={{ uri: user?.avatar}} className='size-44 relative rounded-full'/>
+            <Image source={{uri: user?.avatar}} className='size-44 relative rounded-full'/>
             <TouchableOpacity className='absolute bottom-11 right-2'>
               <Image source={icons.edit} className='size-9'/>
             </TouchableOpacity>

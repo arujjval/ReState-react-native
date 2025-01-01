@@ -19,6 +19,7 @@ const SignIn = () => {
       const result = await login()
 
       if(result) {
+        Alert.alert('Success', 'You have been logged in successfully')
         refetch()
       } else {
         Alert.alert('Error', 'Failed to login')
@@ -31,7 +32,9 @@ const SignIn = () => {
   
   return (
     <SafeAreaView className='bg-white h-full'>
-      <ScrollView contentContainerClassName='h-full'>
+      <ScrollView contentContainerStyle={{
+        height: '100%',
+      }}>
         <Image source={images.onboarding} className='w-full h-4/6' resizeMode='contain'/>
 
         <View className='px-10'>
