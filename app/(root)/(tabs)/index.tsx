@@ -33,11 +33,14 @@ export default function Index() {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+        
+      </View>  
       
-        <FeaturedCard />
-        <Card />
       </View>
+      <View className="">
+        <FeaturedCard />
+      </View>
+      <Card />
     </SafeAreaView>
   );
 }
