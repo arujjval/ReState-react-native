@@ -1,28 +1,23 @@
-import { useGlobalContext } from '@/lib/global-provider';
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator } from 'react-native';
-import { View } from 'react-native';
-import { Redirect, Slot } from 'expo-router';
+import { Redirect, Slot } from "expo-router";
+import { ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-function AppLayout() {
-    const { loading, isLoggedin } = useGlobalContext();
+import { useGlobalContext } from "@/lib/global-provider";
 
-    // if(loading) {
-    //     return (
-    //         <SafeAreaView>
-    //             <ActivityIndicator className='flex-1 justify-center items-center' />
-    //         </SafeAreaView>
-    //     )
-    // }
+export default function AppLayout() {
+  const { loading, isLoggedin } = useGlobalContext();
 
-    // if(!isLoggedin) {
-    //     return <Redirect href='/sign-in'/>
-    // }
-
+  if (loading) {
     return (
-        <Slot />
-    )
-}
+      <SafeAreaView className="bg-white h-full flex justify-center items-center">
+        <ActivityIndicator className="text-primary-300" size="large" />
+      </SafeAreaView>
+    );
+  }
 
-export default AppLayout
+  if (!isLoggedin) {
+    return <Redirect href="/sign-in" />;
+  }
+
+  return <Slot />;
+}

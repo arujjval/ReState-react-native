@@ -1,15 +1,13 @@
-import { Card, FeaturedCard } from "@/components/Cards";
+import { Card } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import NoResults from "@/components/NoResults";
 import Search from "@/components/Search";
 import icons from "@/constants/icons";
-import images from "@/constants/images";
-import { getLatestProperties, getProperties } from "@/lib/appwrite";
-import { useGlobalContext } from "@/lib/global-provider";
+import { getProperties } from "@/lib/appwrite";
 import { useAppwrite } from "@/lib/useAppwrite";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, ScrollView, FlatList, Button, ActivityIndicator } from "react-native";
+import { Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Explore() {

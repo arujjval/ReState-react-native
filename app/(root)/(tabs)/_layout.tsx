@@ -7,7 +7,7 @@ import icons from '@/constants/icons'
 const TabIcon = ({ focused, icon, title }: { focused: boolean, 
     icon: string, title: string }) => (
         <View className='flex-1 mt-3 flex flex-col items-center'>
-            <Image source={icon} className='size-6' resizeMode='contain'
+            <Image source={icons} className='size-6' resizeMode='contain'
             tintColor={focused? '#0061ff' : '#666876'}/>
             <Text className={`${focused? 
                 'text-primary-300 font-rubik-medium' : 'text-black-200 font-rubik'}} 
