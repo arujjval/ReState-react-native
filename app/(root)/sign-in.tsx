@@ -8,26 +8,23 @@ import { Redirect } from 'expo-router'
 import { useGlobalContext } from '@/lib/global-provider'
 
 const SignIn = () => {
-  const { refetch, loading, isLoggedin } = useGlobalContext();
+  const { refetch, loading, isLoggedin, user } = useGlobalContext();
 
-  if(!loading && isLoggedin) {
+  console.log("isloggedin: " + isLoggedin)
+
+  if(isLoggedin) {
     return <Redirect href='/'/>
   }
 
   const handleLogin = async () => {
-    try {
-      const result = await login()
+    const result = await login()
 
-      if(result) {
-        Alert.alert('Success', 'You have been logged in successfully')
-        refetch()
-      } else {
-        Alert.alert('Error', 'Failed to login')
-      } 
-    } catch (error) {
-      Alert.alert('Login Failed')
+    if(result) {
+      refetch();
     }
-    
+    else {
+      Alert.alert('Error', 'Failed to login')
+    } 
   }
   
   return (

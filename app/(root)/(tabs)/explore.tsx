@@ -31,7 +31,7 @@ export default function Explore() {
     })
   }, [params.filter, params.query]);
 
-  const handleCardPress = (id: string) => router.push(`/property/${id}` as any);
+  const handleCardPress = (id: string) => router.push(`/properties/${id}` as any);
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -39,7 +39,7 @@ export default function Explore() {
         data={properties} 
         renderItem={({item, index}) => <Card item={item} 
             onPress={() => handleCardPress(item.$id)} key={index}/>} 
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item, index) => index.toString()}
         numColumns={2}
         contentContainerClassName="pb-32"
         columnWrapperClassName="flex gap-5 px-5"

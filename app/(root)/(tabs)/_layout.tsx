@@ -1,13 +1,13 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, ImageSourcePropType } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 
 import icons from '@/constants/icons'
 
 const TabIcon = ({ focused, icon, title }: { focused: boolean, 
-    icon: string, title: string }) => (
+    icon: ImageSourcePropType, title: string }) => (
         <View className='flex-1 mt-3 flex flex-col items-center'>
-            <Image source={icons} className='size-6' resizeMode='contain'
+            <Image source={icon} className='size-6' resizeMode='contain'
             tintColor={focused? '#0061ff' : '#666876'}/>
             <Text className={`${focused? 
                 'text-primary-300 font-rubik-medium' : 'text-black-200 font-rubik'}} 

@@ -3,9 +3,14 @@ import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useGlobalContext } from "@/lib/global-provider";
+import { useEffect } from "react";
 
 export default function AppLayout() {
   const { loading, isLoggedin } = useGlobalContext();
+
+  useEffect(() => {
+
+  }, [loading, isLoggedin]);
 
   if (loading) {
     return (
@@ -15,9 +20,9 @@ export default function AppLayout() {
     );
   }
 
-  if (!isLoggedin) {
-    return <Redirect href="/sign-in" />;
-  }
+  // if (!isLoggedin) {
+  //   return <Redirect href="/sign-in" />;
+  // }
 
   return <Slot />;
 }

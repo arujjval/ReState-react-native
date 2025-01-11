@@ -6,13 +6,13 @@ import icons from "@/constants/icons";
 import { getLatestProperties, getProperties } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { useAppwrite } from "@/lib/useAppwrite";
-import { router, useLocalSearchParams } from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  const { user, loading } = useGlobalContext();
+  const { user, loading, isLoggedin } = useGlobalContext();
   const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 
   const { data: latestProperties, loading: loadingLatestProperties } = useAppwrite({
@@ -39,13 +39,17 @@ export default function Index() {
 
   const handleCardPress = (id: string) => router.push(`/properties/${id}` as any);
 
+  if(!isLoggedin) {
+    return <Redirect href="/sign-in" />;
+  }
+
   return (
     <SafeAreaView className="bg-white h-full">
       <FlatList 
         data={properties} 
         renderItem={({item, index}) => <Card item={item} 
             onPress={() => handleCardPress(item.$id)} key={index}/>} 
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item, index) => index.toString()}
         numColumns={2}
         contentContainerClassName="pb-32"
         columnWrapperClassName="flex gap-5 px-5"
@@ -89,8 +93,11 @@ export default function Index() {
             ) : (
               <FlatList 
                 data={latestProperties} 
-                renderItem={({item, index}) => <FeaturedCard item={item} key={index} />} 
-                keyExtractor={(item) => item.toString()}
+                renderItem={({item, index}) => <FeaturedCard 
+                                                    item={item} 
+                                                    key={index} 
+                                                    onPress={() => handleCardPress(item.$id)}/>} 
+                keyExtractor={(item, index) => index.toString()}
                 horizontal
                 bounces={false}
                 ListEmptyComponent={NoResults}

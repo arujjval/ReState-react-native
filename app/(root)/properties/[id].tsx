@@ -6,6 +6,7 @@ import { useAppwrite } from '@/lib/useAppwrite';
 import icons from '@/constants/icons';
 import images from '@/constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ImageSourcePropType } from 'react-native';
 
 const Property = () => {
     const { id } = useLocalSearchParams();
@@ -16,8 +17,14 @@ const Property = () => {
             id: id as string,
         },
       });
-
-    const images = property?.gallery
+    
+    const facilityIcons: { [key: string]: ImageSourcePropType } = {
+        'Laundry': icons.laundry,
+        'Wifi': icons.wifi,
+        'Gym': icons.dumbell,
+        'Pet-friendly': icons.dog,
+        'Parking': icons.carPark,
+    }
 
     if(loadingProperty) {
         return (
@@ -37,12 +44,22 @@ const Property = () => {
         <SafeAreaView className='h-full w-full'>
             <ScrollView 
             className='h-full w-full'>
-                <View className='h-96'>
-                    <Image 
-                        source={{ uri: property?.image }} 
-                        resizeMode='cover'
-                        className='w-full h-full relative'
-                    />
+                <View className='w-full relative'>
+                    <View className='w-full'>
+                        <ScrollView 
+                            horizontal
+                            pagingEnabled
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerClassName='h-96'>
+                            {property?.gallery.map((item: any, index: number) => (
+                                <Image 
+                                    key={index}
+                                    source={{ uri: item.image }}
+                                    className='w-screen h-96'
+                                    resizeMode='cover'/>
+                            ))}
+                        </ScrollView>
+                    </View>
 
                     <View className='flex flex-row justify-between 
                         items-center px-5 absolute w-full mt-6'>
@@ -163,12 +180,12 @@ const Property = () => {
                         </Text>
                         <View className='flex flex-row flex-wrap gap-y-4'>
                             {property?.facilities.map((facility: string, index: number) => (
-                                <View key={index} className='flex flex-col items-center gap-2 w-1/4'>
+                                <View key={index} className='flex flex-row items-center justify-between
+                                 gap-2'>
                                     <View className='bg-primary-200 rounded-full px-3 py-3'>
-                                        <Image source={icons[facility.toLowerCase()]} className='h-6 w-6'/>
+                                        <Image source={facilityIcons[facility]} className='h-6 w-6'/>
                                     </View>
-                                    <Text className='font-rubik-regular text-lg text-black-200
-                                    min-w-20 text-center'>
+                                    <Text className='font-rubik-regular text-lg text-black-200 min-w-20 text-center'>
                                         {facility.length > 10 ? `${facility.substring(0, 10)}...` : facility}
                                     </Text>
                                 </View>
@@ -186,13 +203,13 @@ const Property = () => {
                                 {property?.address}
                             </Text>
                         </View>
-                        <View>
+                        {/* <View>
                             <Image 
                                 source={images.map} 
                                 className='w-full h-auto rounded-full' 
                                 resizeMode='contain'
                             />
-                        </View>
+                        </View> */}
                     </View>
 
                     <View className='py-6 gap-4'>
